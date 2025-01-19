@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MessageService } from './message.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,16 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'angular-injection-workshop';
+export class AppComponent implements OnInit {
+  message = signal('')
+
+  protected setMessage(){
+    const messageService = inject(MessageService)
+
+    this.message.set(messageService.getMessage())
+  }
+
+  ngOnInit(): void {
+    this.setMessage()
+  }
 }
